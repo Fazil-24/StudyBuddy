@@ -1,0 +1,194 @@
+/* General styles */
+body {
+    
+    background: linear-gradient(to bottom, #121212, #343232f4);
+    color: #f1f1f1; /* Light text color */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Full height */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main container */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Full page height */
+}
+
+/* Top Section (Header) - 20% of height */
+.header {
+    height: 20%; /* 20% height for title and caption */
+    text-align: center;
+    padding-top: 50px; /* Adjust for vertical centering */
+}
+
+.main-title {
+    font-size: 3rem;
+    margin-top: -25px;
+    background: linear-gradient(to right, #FFA500, #FF4500); /* Orange gradient */
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.caption {
+    font-size: 1.5rem;
+    margin-top: -25px;
+    background: linear-gradient(to right, #FFB347, #FF7F50); /* Light orange gradient */
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Bottom Section (Chat and News) - 80% of height */
+.bottom-section {
+    height: 80%; /* 80% height for chat and news sections */
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* Chat Section */
+.chat-section {
+    flex: 1;
+    max-width: 60%;
+    margin-right: 20px;
+}
+
+.chat-window {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #FFA500; 
+    height: 400px;
+    overflow-y: auto;
+}
+
+
+.chat-input-container {
+    display: flex;
+    margin-top: 10px;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-right: 10px;
+}
+
+#send-btn {
+    padding: 10px 20px;
+    background-color: #FF4500;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#send-btn:hover {
+    background-color: #FF6347;
+    
+}
+
+/* News Section */
+.news-section {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #FFA500;
+    flex: 0.35;
+    max-width: 35%;
+    overflow: hidden;
+}
+
+
+#news-content {
+    overflow-y: auto; /* Enable vertical scrolling */
+    color: #d3d3d3;
+    max-height: 350px; /* Adjust this value to fit the desired visible height */
+    padding-right: 10px; /* Add padding for readability */
+}
+
+.news-window {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 10px;
+    height: 350px;
+    overflow-y: auto;
+}
+
+
+/* Chat messages styling */
+.chat-message {
+    margin-bottom: 15px;
+}
+
+.chat-message.initial-message {
+    color: #ff6a00; /* Orange color */
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-style: italic; /* Optional, adds emphasis to the text */
+}
+
+#card-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: orange;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 150px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.card.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.user-message {
+    text-align: right;
+    background-color: #FF4500;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    margin-left: auto;
+}
+
+.ai-message {
+    text-align: left;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    margin-right: auto;
+}
+
+
+/* essay Section */
+.sample-questions-section {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #FFA500;
+    flex: 0.35;
+    max-width: 75%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 15px;
+}
+
