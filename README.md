@@ -13,3 +13,9 @@ To ensure that users stay informed, I’ve integrated a Google search feature th
 
 Sample Questions for Exam Practice
 The app also includes a section where users can explore potential exam questions. Whether it’s understanding question types or revisiting previous year’s papers, this feature helps users better prepare for the real exam environment.
+
+To replicate this solution in your system, follow the steps:
+1. Clone the GitHub repo in your system.
+2. Pip install the requirements.txt file.
+3. Obtain the API key from Google AI Studio and Insert the API key in the .env file
+4. Finally, run "Python app.py" in your IDE to run it locally.
