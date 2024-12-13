@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyBuddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Top Section (20% height) -->
+        <header class="header">
+            <h1 class="main-title">StudyBuddy</h1>
+            <p class="caption">AI companion to assist your UPSC Prep</p>
+        </header>
+
+        <!-- Bottom Section (80% height) -->
+        <div class="bottom-section">
+            <!-- Chat Section -->
+            <div class="chat-section">
+                <div id="chat-window" class="chat-window">
+                    <!-- Chat messages will appear here -->
+                    <div class="chat-message initial-message">
+                        Ask questions about UPSC Prep! I'll assist you.
+                    </div>
+
+                        <!-- Cards container -->
+    <div id="card-container">
+        <div class="card" id="card1">
+            <p>What is reverse globalization?</p>
+        </div>
+        <div class="card" id="card2">
+            <p>How does circular economy help in modern times?</p>
+        </div>
+        <div class="card" id="card3">
+            <p>Role of AI in government sector</p>
+        </div>
+    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="user-input" placeholder="Type your Questions here..." autofocus>
+                    <button id="send-btn">Send</button>
+                </div>
+            </div>
+
+            <!-- News Section -->
+            <div class="news-section">
+                <h2>Latest News</h2>
+                <div id="news-content">
+                    <p>News related to the topic will appear here...</p>
+                </div>
+            </div>    
+        </div>
+
+        <!-- Sample Questions Section -->
+        <div class="sample-questions-section">
+            <h2>Sample Questions</h2>
+            <div id="sample-questions-content">
+                <p>Sample questions related to the topic will appear here...</p>
+            </div>
+        </div>
+
+        
+        <!-- Essay Section -->
+        <!-- <div class="essay-section">
+            <h2>Write your Essay, let me evaluate</h2>
+            <input type="text" id="essay-user-input" placeholder="Type your Essay here..." autofocus>
+            <div>
+            <button id="send-btn">Evaluate</button>
+            </div>
+        </div>
+        <div class="feedback-section">
+            <h2>Here's your feedback</h2>
+        </div> -->
+    </div>
+
+    <script>
+        const sendBtn = document.getElementById("send-btn");
+        const userInput = document.getElementById("user-input");
+        const chatWindow = document.getElementById("chat-window");
+        const newsContent = document.getElementById("news-content");
+        const sampleques = document.getElementById("sample-questions-content")
+        const cardContainer = document.getElementById("card-container");
+        // Function to hide the cards after a question is asked
+        function hideCards() {
+            const cards = document.querySelectorAll(".card");
+            cards.forEach(card => {
+                card.classList.add("hidden");
+            });
+        }
+        // Function to remove the initial message when user starts chatting
+        function removeInitialMessage() {
+            const initialMessage = document.querySelector(".initial-message");
+            if (initialMessage) {
+                initialMessage.remove();
+            }
+        }
+
+        sendBtn.addEventListener("click", async () => {
+            const userMessage = userInput.value.trim();
+            if (userMessage) {
+                // Remove the initial message when user starts typing
+                removeInitialMessage();
+                hideCards();
+                // Clear input
+                userInput.value = "";
+
+                // Add user message to chat
+                const userDiv = document.createElement("div");
+                userDiv.classList.add("chat-message", "user-message");
+                userDiv.textContent = userMessage;
+                chatWindow.appendChild(userDiv);
+
+                // Send the user message to the Flask app and get the AI response
+                const response = await fetch("/ask", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ query: userMessage })
+                });
+
+                const data = await response.json();
+                const aiMessage = data.answer || "Sorry, I couldn't find an answer.";
+
+                // Add AI response to chat
+                const aiDiv = document.createElement("div");
+                aiDiv.classList.add("chat-message", "ai-message");
+                aiDiv.textContent = aiMessage;
+                chatWindow.appendChild(aiDiv);
+
+                // Display the news related to the query
+                // Fetch News
+                const newsResponse = await fetch("/news", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ query: userMessage })
+                });
+                const newsData = await newsResponse.json();
+                const newsContent = document.getElementById("news-content");
+                newsContent.innerHTML = "";
+                if (newsData.news) {
+                    const newsList = document.createElement("ul");
+                    newsData.news.split("\n").forEach((newsItem) => {
+                        const listItem = document.createElement("li");
+                        listItem.innerText = newsItem;
+                        newsList.appendChild(listItem);
+                    });
+                    newsContent.appendChild(newsList);
+                } else {
+                    newsContent.innerHTML = "No news found.";
+                }
+            
+                const newsWindow = document.getElementById("news-content");
+
+                const sampleques = document.getElementById("sample-questions-content");
+
+                const sampleQuestionsResponse = await fetch("/sample_questions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ query: userMessage })
+        });
+        const sampleQuestionsData = await sampleQuestionsResponse.json();
+        const sampleQuestionsContent = document.getElementById("sample-questions-content");
+        sampleQuestionsContent.innerHTML = "";
+        if (sampleQuestionsData.sample_questions) {
+            const questionsList = document.createElement("ul");
+            sampleQuestionsData.sample_questions.split("\n").forEach((question) => {
+                const listItem = document.createElement("li");
+                listItem.innerText = question;
+                questionsList.appendChild(listItem);
+            });
+            sampleQuestionsContent.appendChild(questionsList);
+        } else {
+            sampleQuestionsContent.innerHTML = "No sample questions found.";
+        }
+
+                // After adding news content
+                newsWindow.scrollTop = newsWindow.scrollHeight;
+                // Scroll to the bottom
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+
+                sampleques.scrollTop = sampleques.scrollHeight;
+
+                
+            }
+        });
+    </script>
+</body>
+</html>
